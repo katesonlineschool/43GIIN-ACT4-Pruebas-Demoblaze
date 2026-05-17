@@ -1,0 +1,238 @@
+{
+  "info": {
+    "name": "43GIIN_ACT4_Postman_Demoblaze_Pilar_Munuera",
+    "_postman_id": "43giin-act4-demoblaze-pilar-munuera",
+    "description": "Colección de pruebas HTTP para la Actividad Evaluativa 4 de 43GIIN. Incluye pruebas POST, GET, PUT, DELETE y una prueba de rendimiento sobre Demoblaze.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01_POST_Registro_usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"pilar_act4_{{$timestamp}}\",\n  \"password\": \"12345678\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.demoblaze.com/signup",
+          "protocol": "https",
+          "host": [
+            "api",
+            "demoblaze",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"El servidor responde correctamente\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+              "});",
+              "",
+              "pm.test(\"La respuesta no es un error interno del servidor\", function () {",
+              "    pm.expect(pm.response.code).to.not.equal(500);",
+              "});",
+              "",
+              "pm.test(\"El tiempo de respuesta es inferior a 2000 ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02_GET_Pagina_principal",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://www.demoblaze.com/index.html",
+          "protocol": "https",
+          "host": [
+            "www",
+            "demoblaze",
+            "com"
+          ],
+          "path": [
+            "index.html"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"La página principal responde con estado 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"La respuesta contiene contenido HTML\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"<html\");",
+              "});",
+              "",
+              "pm.test(\"El tiempo de respuesta es inferior a 3000 ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03_PUT_Metodo_no_permitido",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"pilar_act4_put\",\n  \"password\": \"12345678\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.demoblaze.com/signup",
+          "protocol": "https",
+          "host": [
+            "api",
+            "demoblaze",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"El método PUT recibe una respuesta controlada\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 403, 405, 500]);",
+              "});",
+              "",
+              "pm.test(\"La respuesta no está vacía\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.above(0);",
+              "});",
+              "",
+              "pm.test(\"El tiempo de respuesta es inferior a 3000 ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04_DELETE_Metodo_no_permitido",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.demoblaze.com/signup",
+          "protocol": "https",
+          "host": [
+            "api",
+            "demoblaze",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"El método DELETE recibe una respuesta controlada\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 403, 405, 500]);",
+              "});",
+              "",
+              "pm.test(\"La respuesta no está vacía\", function () {",
+              "    pm.expect(pm.response.text().length).to.be.above(0);",
+              "});",
+              "",
+              "pm.test(\"El tiempo de respuesta es inferior a 3000 ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05_GET_Rendimiento_pagina_principal",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://www.demoblaze.com/index.html",
+          "protocol": "https",
+          "host": [
+            "www",
+            "demoblaze",
+            "com"
+          ],
+          "path": [
+            "index.html"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"La página responde correctamente\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"La respuesta contiene PRODUCT STORE\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"PRODUCT STORE\");",
+              "});",
+              "",
+              "pm.test(\"Prueba de rendimiento: respuesta inferior a 3000 ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
