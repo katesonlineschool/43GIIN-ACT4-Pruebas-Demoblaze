@@ -1,0 +1,29 @@
+$kind: http-request
+name: New Request
+url: https://api.demoblaze.com/signup
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"El método DELETE recibe una respuesta controlada\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([200, 400, 403, 405, 500]);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta no está vacía\", function () {\r
+
+      \    pm.expect(pm.response.text().length).to.be.above(0);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El tiempo de respuesta es inferior a 3000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(3000);\r
+
+      });"
+    language: text/javascript
+order: 3918552613740726

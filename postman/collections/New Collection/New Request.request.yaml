@@ -1,0 +1,38 @@
+$kind: http-request
+name: New Request
+url: https://api.demoblaze.com/signup
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"username\": \"pilar_act4_{{$timestamp}}\",\r
+
+    \  \"password\": \"12345678\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"El servidor responde correctamente\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([200, 409]);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta no es un error interno del servidor\", function () {\r
+
+      \    pm.expect(pm.response.code).to.not.equal(500);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El tiempo de respuesta es inferior a 2000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(2000);\r
+
+      });"
+    language: text/javascript
+order: 1779055356311
